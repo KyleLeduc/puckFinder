@@ -1,0 +1,26 @@
+<% layout ('layouts/boilerplate') %>
+
+<h1>All Rinks</h1>
+<div>
+    <a href="/rinks/new">Add Rink</a>
+</div>
+
+<% for (let rink of rinks) { %> 
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="<%= rink.image %>" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= rink.title %></h5>
+                    <p class="card-text"><%= rink.description %></p>
+                    <p class="card-text">
+                        <small class="text-muted"><%= rink.location %></small>
+                    </p>
+                    <a href="/rinks/<%= rink._id %>" class="btn btn-primary">View <%= rink.title %></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>

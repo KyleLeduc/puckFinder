@@ -1,0 +1,41 @@
+<% layout ('layouts/boilerplate') %>
+
+<div class="row">
+    <h1 class="text-center">New Rink</h1>
+    <div class="col-6 offset-3">
+        <form action="/rinks" method="post" novalidate class="validated-form">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="rink[title]" required>
+                <div class="valid-feedback">
+                    Looks good
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="rink[location]" required>
+                <div class="valid-feedback">
+                    Looks good
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="rink[image]" required>
+                <div class="valid-feedback">
+                    Looks good
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="rink[description]" required></textarea>
+                <div class="valid-feedback">
+                    Looks good
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add Rink</button>
+            </div>
+        </form>
+    </div>
+    <a href="/rinks">All Rinks</a>
+</div>
