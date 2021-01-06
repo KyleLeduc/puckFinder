@@ -112,6 +112,13 @@ app.post('/rinks/:id/reviews', validateReview, catchAsync(async (req, res) => {
     res.redirect(`/rinks/${rink._id}`);
 }));
 
+app.delete('/rinks/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Rink.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/rinks/${id}`);
+}));
+
 
 // ********************
 // *  Error Handling  *
