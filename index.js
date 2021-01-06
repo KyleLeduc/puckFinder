@@ -77,7 +77,7 @@ app.post('/rinks', validateRink, catchAsync(async(req, res, next) => {
 }));
 
 app.get('/rinks/:id', catchAsync(async (req, res) => {
-    const rink = await Rink.findById(req.params.id);
+    const rink = await Rink.findById(req.params.id).populate('reviews');
     res.render('rinks/show', { rink });
 }));
 

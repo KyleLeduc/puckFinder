@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Comment = require('./comment');
 const Schema = mongoose.Schema;
 
 const rinkSchema = new Schema({
@@ -12,7 +11,7 @@ const rinkSchema = new Schema({
     reviews: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Comment'
+            ref: 'Review'
         }
     ],
 });
