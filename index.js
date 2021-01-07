@@ -12,8 +12,10 @@ const reviews = require('./routes/reviews');
 
 mongoose.connect('mongodb://localhost:27017/puckFinder', { 
     useNewUrlParser: true,
-    useUnifiedTopology: true }
-);
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, "connection error:"));
@@ -30,6 +32,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('common'));
 
 
