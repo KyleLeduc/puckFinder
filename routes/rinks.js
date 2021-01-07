@@ -39,18 +39,26 @@ router.post('/', validateRink, catchAsync(async(req, res, next) => {
 
 router.get('/:id', catchAsync(async (req, res) => {
     const rink = await Rink.findById(req.params.id).populate('reviews');
+    if(!rink) {
+        req.flash('error', "Sorry! That rink wasn't found");
+        return res.redirect('/rinks');
+    };
     res.render('rinks/show', { rink });
 }));
 
 router.get('/:id/edit', catchAsync(async (req, res) => {
     const rink = await Rink.findById(req.params.id);
+    if(!rink) {
+        req.flash('error', "Sorry! That rink wasn't found");
+        return res.redirect('/rinks');
+    };
     res.render('rinks/edit', { rink });
 }));
 
 router.put('/:id', validateRink, catchAsync(async (req, res) => {
     const { id } = req.params;
     const rink = await Rink.findByIdAndUpdate(id, { ...req.body.rink })
-    req.flash('success', 'Successfully updated rink')
+    req.flash('success', 'Successfully updated rink');
     res.redirect(`/rinks/${ id }`);
 }));
 
