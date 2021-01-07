@@ -33,7 +33,7 @@ router.get('/new', (req, res) => {
 router.post('/', validateRink, catchAsync(async(req, res, next) => {
     const rink = new Rink(req.body.rink);
     await rink.save();
-    req.flash('success', 'Successfully made a new rink!');
+    req.flash('success', 'Successfully created a new rink');
     res.redirect(`/rinks/${ rink._id }`);
 }));
 
@@ -50,12 +50,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 router.put('/:id', validateRink, catchAsync(async (req, res) => {
     const { id } = req.params;
     const rink = await Rink.findByIdAndUpdate(id, { ...req.body.rink })
+    req.flash('success', 'Successfully updated rink')
     res.redirect(`/rinks/${ id }`);
 }));
 
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Rink.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted the rink');
     res.redirect('/rinks');
 }));
 
