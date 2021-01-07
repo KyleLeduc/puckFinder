@@ -3,7 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const Rink = require('../models/rink');
-const { rinkSchema, reviewSchema } = require('../schemas.js')
+const { rinkSchema } = require('../schemas.js')
 
 
 const validateRink = (req, res, next) => {
