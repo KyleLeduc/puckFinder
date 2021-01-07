@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Review = require('./review');
 const Schema = mongoose.Schema;
 
 const rinkSchema = new Schema({
@@ -14,6 +15,16 @@ const rinkSchema = new Schema({
             ref: 'Review'
         }
     ],
+});
+
+rinkSchema.post('findOneAndDelete', async function (doc) {
+    if(doc) {
+        await Review.remove({
+            _id: {
+                $in: doc.reviews
+            }
+        })
+    }
 });
 
 module.exports = mongoose.model('Rink', rinkSchema);

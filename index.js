@@ -10,6 +10,8 @@ const morgan = require('morgan');
 const Rink = require('./models/rink');
 const Review = require('./models/review');
 
+const rinks = require('./routes/rinks')
+
 mongoose.connect('mongodb://localhost:27017/puckFinder', { 
     useNewUrlParser: true,
     useUnifiedTopology: true }
@@ -32,15 +34,6 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 app.use(morgan('common'));
 
-const validateRink = (req, res, next) => {
-    const { error } = rinkSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
 
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
@@ -52,51 +45,11 @@ const validateReview = (req, res, next) => {
     }
 }
 
+app.use('/rinks', rinks);
 
 app.get('/', (req, res) => {
     res.render('home');
 });
-
-// ********************
-// *   Rink Routes    *
-// ********************
-
-app.get('/rinks', catchAsync(async (req, res) => {
-    const rinks = await Rink.find({});
-    res.render('rinks/index', { rinks });
-}));
-
-app.get('/rinks/new', (req, res) => {
-    res.render('rinks/new');
-});
-
-app.post('/rinks', validateRink, catchAsync(async(req, res, next) => {
-    const rink = new Rink(req.body.rink);
-    await rink.save();
-    res.redirect(`/rinks/${ rink._id }`);
-}));
-
-app.get('/rinks/:id', catchAsync(async (req, res) => {
-    const rink = await Rink.findById(req.params.id).populate('reviews');
-    res.render('rinks/show', { rink });
-}));
-
-app.get('/rinks/:id/edit', catchAsync(async (req, res) => {
-    const rink = await Rink.findById(req.params.id);
-    res.render('rinks/edit', { rink });
-}));
-
-app.put('/rinks/:id', validateRink, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const rink = await Rink.findByIdAndUpdate(id, { ...req.body.rink })
-    res.redirect(`/rinks/${ id }`);
-}));
-
-app.delete('/rinks/:id', catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Rink.findByIdAndDelete(id);
-    res.redirect('/rinks');
-}));
 
 
 // ********************
