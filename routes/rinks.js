@@ -33,6 +33,7 @@ router.get('/new', (req, res) => {
 router.post('/', validateRink, catchAsync(async(req, res, next) => {
     const rink = new Rink(req.body.rink);
     await rink.save();
+    req.flash('success', 'Successfully made a new rink!');
     res.redirect(`/rinks/${ rink._id }`);
 }));
 
