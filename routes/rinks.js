@@ -3,11 +3,11 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const Rink = require('../models/rink');
-const { rinkSchema } = require('../schemas.js')
+const { RinkSchema } = require('../schemas.js')
 
 
 const validateRink = (req, res, next) => {
-    const { error } = rinkSchema.validate(req.body);
+    const { error } = RinkSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);

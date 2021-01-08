@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Review = require('./review');
 const Schema = mongoose.Schema;
 
-const rinkSchema = new Schema({
+const RinkSchema = new Schema({
     author: String,
     title: String,
     image: String,
@@ -17,7 +17,7 @@ const rinkSchema = new Schema({
     ],
 });
 
-rinkSchema.post('findOneAndDelete', async function (doc) {
+RinkSchema.post('findOneAndDelete', async function (doc) {
     if(doc) {
         await Review.remove({
             _id: {
@@ -27,4 +27,4 @@ rinkSchema.post('findOneAndDelete', async function (doc) {
     }
 });
 
-module.exports = mongoose.model('Rink', rinkSchema);
+module.exports = mongoose.model('Rink', RinkSchema);

@@ -7,11 +7,11 @@ const ExpressError = require('../utils/ExpressError');
 const Rink = require('../models/rink');
 const Review = require('../models/review');
 
-const { reviewSchema } = require('../schemas.js')
+const { ReviewSchema } = require('../schemas.js')
 
 
 const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
+    const { error } = ReviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);
