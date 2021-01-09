@@ -26,7 +26,7 @@ const seedDB = async () => {
         const playerCount = Math.floor(Math.random() * 20);
         const rink = new Rink({
             //YOUR USER ID
-            author: '5f5c330c2cd79d538f2c66d9',
+            author: '5ff98d6f21ff2886093246ab',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',

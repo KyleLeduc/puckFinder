@@ -33,13 +33,14 @@ router.get('/new', isLoggedIn, (req, res) => {
 
 router.post('/', isLoggedIn, validateRink, catchAsync(async(req, res, next) => {
     const rink = new Rink(req.body.rink);
+    rink.author = req.user._id;
     await rink.save();
     req.flash('success', 'Successfully created a new rink');
     res.redirect(`/rinks/${ rink._id }`);
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
-    const rink = await Rink.findById(req.params.id).populate('reviews');
+    const rink = await (await Rink.findById(req.params.id).populate('reviews').populate('author'));
     if(!rink) {
         req.flash('error', "Sorry! That rink wasn't found");
         return res.redirect('/rinks');

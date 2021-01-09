@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 const Review = require('./review');
+const User = require('./user');
 const Schema = mongoose.Schema;
 
 const RinkSchema = new Schema({
-    author: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     title: String,
     image: String,
     playerCount: Number,
