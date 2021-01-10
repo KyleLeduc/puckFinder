@@ -1,22 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-const ExpressError = require('../utils/ExpressError');
+const { isLoggedIn, isAuthor, validateRink } = require('../middleware.js')
+
 const Rink = require('../models/rink');
-const { RinkSchema } = require('../schemas.js')
-const { isLoggedIn } = require('../middleware.js')
-
-
-const validateRink = (req, res, next) => {
-    const { error } = RinkSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
-
 
 // ********************
 // *   Rink Routes    *
@@ -48,8 +35,9 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('rinks/show', { rink });
 }));
 
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
-    const rink = await Rink.findById(req.params.id);
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const rink = await Rink.findById(id);
     if(!rink) {
         req.flash('error', "Sorry! That rink wasn't found");
         return res.redirect('/rinks');
@@ -57,14 +45,14 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     res.render('rinks/edit', { rink });
 }));
 
-router.put('/:id', isLoggedIn, validateRink, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, validateRink, catchAsync(async (req, res) => {
     const { id } = req.params;
     const rink = await Rink.findByIdAndUpdate(id, { ...req.body.rink })
     req.flash('success', 'Successfully updated rink');
-    res.redirect(`/rinks/${ id }`);
+    res.redirect(`/rinks/${ rink._id }`);
 }));
 
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Rink.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted the rink');

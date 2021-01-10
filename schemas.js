@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-module.exports.RinkSchema = Joi.object({
+module.exports.rinkSchema = Joi.object({
     rink: Joi.object({
         title: Joi.string().required(),
         image: Joi.string().required(),
@@ -9,7 +9,7 @@ module.exports.RinkSchema = Joi.object({
     }).required()
 });
 
-module.exports.ReviewSchema = Joi.object({
+module.exports.reviewSchema = Joi.object({
     review: Joi.object({
         rating: Joi.number().min(1).max(5).required(),
         body: Joi.string().required()
