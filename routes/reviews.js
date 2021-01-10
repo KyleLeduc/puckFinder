@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 
 const catchAsync = require('../utils/catchAsync');
-const { isLoggedIn, isAuthor, validateReview } = require('../middleware.js')
+const { isLoggedIn, isReviewAuthor, validateReview } = require('../middleware.js')
 
 const Rink = require('../models/rink');
 const Review = require('../models/review');
@@ -22,7 +22,7 @@ router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
     res.redirect(`/rinks/${rink._id}`);
 }));
 
-router.delete('/:reviewId', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+router.delete('/:reviewId', isLoggedIn, isReviewAuthor, catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Rink.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
     await Review.findByIdAndDelete(reviewId);
