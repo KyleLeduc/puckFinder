@@ -11,9 +11,10 @@ const Review = require('../models/review');
 // *  Review Routes   *
 // ********************
 
-router.post('/', validateReview, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
     const rink = await Rink.findById(req.params.id);
     const review = new Review(req.body.review);
+    review.author = req.user._id;
     rink.reviews.push(review);
     await review.save();
     await rink.save();
@@ -21,7 +22,7 @@ router.post('/', validateReview, catchAsync(async (req, res) => {
     res.redirect(`/rinks/${rink._id}`);
 }));
 
-router.delete('/:reviewId', catchAsync(async (req, res) => {
+router.delete('/:reviewId', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Rink.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
     await Review.findByIdAndDelete(reviewId);
