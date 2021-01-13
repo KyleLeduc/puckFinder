@@ -10,7 +10,7 @@ const upload = multer({ storage });
 
 router.route('/')
     .get(catchAsync(rinks.index))
-    .post(isLoggedIn, upload.array('rink[image]'), validateRink, catchAsync(rinks.createRink));
+    .post(isLoggedIn, upload.array('images'), validateRink, catchAsync(rinks.createRink));
 
 router.get('/new', isLoggedIn, rinks.renderNewForm);
 
