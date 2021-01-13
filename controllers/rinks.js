@@ -11,6 +11,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createRink = async(req, res, next) => {
     const rink = new Rink(req.body.rink);
+    rink.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     rink.author = req.user._id;
     await rink.save();
     req.flash('success', 'Successfully created a new rink');

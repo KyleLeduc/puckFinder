@@ -8,7 +8,12 @@ const RinkSchema = new Schema({
         ref: 'User'
     },
     title: String,
-    image: String,
+    images: [
+        {
+            url: String,
+            filename: String
+        }
+    ],
     playerCount: Number,
     description: String,
     location: String,

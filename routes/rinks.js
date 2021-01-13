@@ -3,11 +3,14 @@ const router = express.Router();
 const rinks = require('../controllers/rinks');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateRink } = require('../middleware.js')
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 
 
 router.route('/')
     .get(catchAsync(rinks.index))
-    .post(isLoggedIn, validateRink, catchAsync(rinks.createRink));
+    .post(isLoggedIn, upload.array('rink[image]'), validateRink, catchAsync(rinks.createRink));
 
 router.get('/new', isLoggedIn, rinks.renderNewForm);
 
