@@ -45,6 +45,9 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateRink = async (req, res) => {
     const { id } = req.params;
     const rink = await Rink.findByIdAndUpdate(id, { ...req.body.rink })
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    rink.images.push(...imgs);
+    await rink.save();
     req.flash('success', 'Successfully updated rink');
     res.redirect(`/rinks/${ rink._id }`);
 };

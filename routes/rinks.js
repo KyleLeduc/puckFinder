@@ -10,13 +10,13 @@ const upload = multer({ storage });
 
 router.route('/')
     .get(catchAsync(rinks.index))
-    .post(isLoggedIn, upload.array('images'), validateRink, catchAsync(rinks.createRink));
+    .post(isLoggedIn, upload.array('image'), validateRink, catchAsync(rinks.createRink));
 
 router.get('/new', isLoggedIn, rinks.renderNewForm);
 
 router.route('/:id')
     .get(catchAsync(rinks.showRink))
-    .put(isLoggedIn, isAuthor, validateRink, catchAsync(rinks.updateRink))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateRink, catchAsync(rinks.updateRink))
     .delete(isLoggedIn, isAuthor, catchAsync(rinks.deleteRink));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(rinks.renderEditForm));
