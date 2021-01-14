@@ -1,4 +1,5 @@
 const Rink = require('../models/rink');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const rinks = await Rink.find({});
@@ -48,6 +49,12 @@ module.exports.updateRink = async (req, res) => {
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     rink.images.push(...imgs);
     await rink.save();
+    if(req.body.deleteImages){
+        for(let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await rink.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
+    }
     req.flash('success', 'Successfully updated rink');
     res.redirect(`/rinks/${ rink._id }`);
 };
