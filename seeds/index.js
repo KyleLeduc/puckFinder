@@ -48,6 +48,14 @@ const seedDB = async () => {
                 {
                     url: 'https://images.unsplash.com/photo-1607250149983-6a6b91d7e999?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
                     filename: 'PuckFinder/ruyoaxgf72nzpi4y6cdi'
+                },
+                {
+                    url: 'https://res.cloudinary.com/dmmbzjpzz/image/upload/v1610568647/PuckFinder/btuomgmwmje93tladq64.jpg',
+                    filename: 'PuckFinder/btuomgmwmje93tladq64'
+                },
+                {
+                    url: 'https://res.cloudinary.com/dmmbzjpzz/image/upload/v1610567541/PuckFinder/hpraeyqhncnurcgvnpz1.jpg',
+                    filename: 'PuckFinder/hpraeyqhncnurcgvnpz1'
                 }
             ]
         })
