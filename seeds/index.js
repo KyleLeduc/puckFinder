@@ -33,13 +33,13 @@ const seedDB = async () => {
             // image: 'https://source.unsplash.com/collection/3140340',
             playerCount,
             // price,
-            // geometry: {
-            //     type: "Point",
-            //     coordinates: [
-            //         cities[random1000].longitude,
-            //         cities[random1000].latitude,
-            //     ]
-            // },
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    cities[random1000].longitude,
+                    cities[random1000].latitude,
+                ]
+            },
             images: [
                 // {
                 //     url: 'https://images.unsplash.com/photo-1555710853-1f4c02bb95a6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
