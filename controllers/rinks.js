@@ -1,5 +1,8 @@
 const Rink = require('../models/rink');
 const { cloudinary } = require('../cloudinary');
+const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeoCoding({accessToken: mapBoxToken});
 
 module.exports.index = async (req, res) => {
     const rinks = await Rink.find({});
@@ -11,7 +14,12 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createRink = async(req, res, next) => {
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.rink.location,
+        limit: 1
+    }).send();
     const rink = new Rink(req.body.rink);
+    rink.geometry = geoData.body.features[0].geometry;
     rink.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     rink.author = req.user._id;
     await rink.save();
