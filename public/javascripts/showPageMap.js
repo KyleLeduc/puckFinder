@@ -8,4 +8,10 @@ const map = new mapboxgl.Map({
 
 new mapboxgl.Marker()
     .setLngLat(rink.geometry.coordinates)
+    .setPopup(
+        new mapboxgl.Popup({offset: 25})
+        .setHTML(
+            `<h3>${rink.title}</h3><p>${rink.location}</p>`
+        )
+    )
     .addTo(map)
