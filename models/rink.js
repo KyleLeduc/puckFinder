@@ -12,6 +12,8 @@ ImageSchema.virtual('thumbnail').get(function() {
     return this.url.replace('/upload', '/upload/w_200');
 });
 
+const opts = { toJSON: { virtuals: true } }
+
 const RinkSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
@@ -39,7 +41,14 @@ const RinkSchema = new Schema({
             ref: 'Review'
         }
     ],
+}, opts);
+
+RinkSchema.virtual('properties.popUpMarkup').get(function() {
+    return `
+    <strong><a href="/rinks/${this._id}">${this.title}</a></strong>
+    <p>Skaters: ${this.playerCount}</p>`
 });
+
 
 RinkSchema.post('findOneAndDelete', async function (doc) {
     if(doc) {
