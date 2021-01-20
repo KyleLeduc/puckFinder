@@ -1,12 +1,6 @@
 if(process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
-// if(process.env.NODE_ENV !== "production") {
-//     const dbUrl = process.env.DB_URL;
-// }
-const dbUrl = 'mongodb://localhost:27017/puckFinder';
-
-
 
 const express = require('express');
 const path = require('path');
@@ -28,6 +22,8 @@ const userRoutes = require('./routes/users');
 const rinkRoutes = require('./routes/rinks');
 const reviewRoutes = require('./routes/reviews');
 
+
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/puckFinder';
 
 mongoose.connect(dbUrl, { 
     useNewUrlParser: true,
@@ -52,12 +48,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(mongoSanitize());
+app.use(mongoSanitize({
+    replaceWith: '_'
+}));
 app.use(morgan('common'));
+
+const secret = process.env.SECRET || 'imalwaysangry'
 
 const store = new MongoDBStore({
     url: dbUrl,
-    secret: 'imalwaysangry',
+    secret,
     touchAfter: 24 * 60 * 60
 })
 
@@ -68,7 +68,7 @@ store.on("error", function(e){
 const sessionConfig = {
     store,
     name: 'session',
-    secret: 'imalwaysangry',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
