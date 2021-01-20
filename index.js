@@ -47,11 +47,13 @@ app.use(mongoSanitize());
 app.use(morgan('common'));
 
 const sessionConfig = {
+    name: 'sess',
     secret: 'imalwaysangry',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
