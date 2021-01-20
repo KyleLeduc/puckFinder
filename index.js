@@ -13,6 +13,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
@@ -54,8 +55,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 app.use(morgan('common'));
 
+const store = new MongoDBStore({
+    url: dbUrl,
+    secret: 'imalwaysangry',
+    touchAfter: 24 * 60 * 60
+})
+
+store.on("error", function(e){
+    console.log("SESSION STORE ERROR", e)
+});
+
 const sessionConfig = {
-    name: 'sess',
+    store,
+    name: 'session',
     secret: 'imalwaysangry',
     resave: false,
     saveUninitialized: true,
