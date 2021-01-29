@@ -19,7 +19,7 @@ map.on('load', function () {
         data: rinks,
         cluster: true,
         clusterMaxZoom: 14, // Max zoom to cluster points on
-        clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+        clusterRadius: 15 // Radius of each cluster when clustering points (defaults to 50)
     });
 
     map.addLayer({
@@ -72,8 +72,8 @@ map.on('load', function () {
         source: 'rinks',
         filter: ['!', ['has', 'point_count']],
         paint: {
-            'circle-color': '#11b4da',
-            'circle-radius': 4,
+            'circle-color': '#212529',
+            'circle-radius': 8,
             'circle-stroke-width': 1,
             'circle-stroke-color': '#fff'
         }
