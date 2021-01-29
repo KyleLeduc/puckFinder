@@ -46,7 +46,9 @@ const RinkSchema = new Schema({
 RinkSchema.virtual('properties.popUpMarkup').get(function() {
     return `
     <strong><a href="/rinks/${this._id}">${this.title}</a></strong>
-    <p>Skaters: ${this.playerCount}</p>`
+    <p>${this.description}</p>
+    `
+    // <p>Skaters: ${this.playerCount}</p>
 });
 
 
