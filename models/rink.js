@@ -16,6 +16,10 @@ ImageSchema.virtual('indexThumbnail').get(function() {
     return this.url.replace('/upload', '/upload/w_500');
 });
 
+ImageSchema.virtual('showPage').get(function() {
+    return this.url.replace('/upload', '/upload/w_900');
+});
+
 const opts = { toJSON: { virtuals: true } }
 
 const RinkSchema = new Schema({
