@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/stylesheets/starability-basic.css">
 
 <div class="row">
-    <div class="col-8">
+    <div class="col-md-6 col-xl-8">
         <div id="rinkCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <% rink.images.forEach((img, i) => { %>
@@ -31,7 +31,6 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item text-muted"><%= rink.location %></li>
               <li class="list-group-item">Submitted by <%= rink.author.username %></li>
-              <li class="list-group-item">Skaters: <%= rink.playerCount %></li>
             </ul>
             <% if (currentUser && rink.author.equals(currentUser._id)) { %>
                 <div class="card-body">
@@ -46,7 +45,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-6 col-xl-4">
         <div id='map'></div>
         <% if (currentUser) { %>
             <h2 class="mb-3">Leave a Review</h2>
