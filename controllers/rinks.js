@@ -13,19 +13,19 @@ module.exports.renderNewForm = (req, res) => {
     res.render('rinks/new');
 };
 
-module.exports.createRink = async(req, res, next) => {
-    const geoData = await geocoder.forwardGeocode({
-        query: req.body.rink.location,
-        limit: 1
-    }).send();
-    const rink = new Rink(req.body.rink);
-    rink.geometry = geoData.body.features[0].geometry;
-    rink.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-    rink.author = req.user._id;
-    await rink.save();
-    req.flash('success', 'Successfully created a new rink');
-    res.redirect(`/rinks/${ rink._id }`);
-};
+// module.exports.createRink = async(req, res, next) => {
+//     const geoData = await geocoder.forwardGeocode({
+//         query: req.body.rink.location,
+//         limit: 1
+//     }).send();
+//     const rink = new Rink(req.body.rink);
+//     rink.geometry = geoData.body.features[0].geometry;
+//     rink.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+//     rink.author = req.user._id;
+//     await rink.save();
+//     req.flash('success', 'Successfully created a new rink');
+//     res.redirect(`/rinks/${ rink._id }`);
+// };
 
 module.exports.showRink = async (req, res) => {
     const rink = await Rink.findById(req.params.id).populate({
