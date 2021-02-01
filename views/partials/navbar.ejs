@@ -14,14 +14,9 @@
                     <a href="/login" class="nav-link">Login</a>
                     <a href="/register" class="nav-link">Register</a> 
                 <% } else { %>
-                    <div class="nav-item dropdown">
-                        <a class="btn btn-outline-light dropdown-toggle" href="#" id="navbarUserDropdownMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <%= currentUser.username %>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end border" aria-labelledby="navbarUserDropdownMenu">
-                            <li><a href="/logout" class="dropdown-item nav-link">Logout</a></li>
-                        </ul>
-                    </div>
+                    <li><hr class="dropdown-divider"></li>
+                    <span class="text-white navbar-text me-3"><%= currentUser.username %></span>
+                    <a href="/logout" class="nav-link">Logout</a>
                 <% } %>
             </div>
         </div>

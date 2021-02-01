@@ -8,6 +8,6 @@
     height: 300px;
 }
 
-.dropdown-menu, .dropdown-item:hover  {
-    background-color: #212529;
+hr.dropdown-divider {
+    color: white;
 }
