@@ -53,7 +53,7 @@ app.use(mongoSanitize({
 }));
 app.use(morgan('common'));
 
-const secret = process.env.SECRET
+const secret = process.env.SECRET;
 
 const store = new MongoDBStore({
     url: dbUrl,
