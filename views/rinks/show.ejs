@@ -47,6 +47,7 @@
     </div>
     <div class="col-md-6 col-xl-4">
         <div id='map'></div>
+        <button onclick="getDirections()" class="btn btn-primary my-2">Directions</button>
         <% if (currentUser) { %>
             <h2 class="mb-3">Leave a Review</h2>
             <form action="/rinks/<%= rink._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
