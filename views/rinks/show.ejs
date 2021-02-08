@@ -3,19 +3,19 @@
 <link rel="stylesheet" href="/stylesheets/starability-coinFlip.css">
 
 <div class="row">
-    <div class="col-md-6 col-xl-8">
+    <div class="col-md-6 col-xl-7">
         <div id="rinkCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <% if (rink.images.length > 0) { %> 
+                <% if (rink.images.length === 0) { %>
+                    <div class="carousel-item active" %>">
+                        <img src="https://res.cloudinary.com/dmmbzjpzz/image/upload/w_900/v1612559445/PuckFinder/noImagesAvailable_cqa8ny.png" class="d-block w-100" alt="">
+                    </div>
+                <% } else { %>
                     <% rink.images.forEach((img, i) => { %>
                         <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
                             <img src="<%= img.showPage %>" class="d-block w-100" alt="">
                         </div>
                     <% }) %>
-                <% } else { %>
-                    <div class="carousel-item active" %>">
-                        <img src="https://res.cloudinary.com/dmmbzjpzz/image/upload/w_900/v1612559445/PuckFinder/noImagesAvailable_cqa8ny.png" class="d-block w-100" alt="">
-                    </div>
                 <% } %> 
             </div>
             <% if (rink.images.length > 1) { %>
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-xl-4">
+    <div class="col-md-6 col-xl-5">
         <div id='map'></div>
         <a href="https://www.google.com/maps/dir/?api=1&destination=<%= rink.geometry.coordinates.reverse() %>" class="btn btn-primary my-3">Take me there!</a>
         <!-- <button onclick="getDirections()" class="btn btn-primary my-2">Directions</button> -->
