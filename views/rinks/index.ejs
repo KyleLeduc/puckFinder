@@ -6,11 +6,7 @@
     <div class="card mb-3">
         <div class="row">
             <div class="col-md-5 col-lg-4 d-flex justify-content-center">
-                <% if (rink.images.length === 0) { %>
-                    <img src="https://res.cloudinary.com/dmmbzjpzz/image/upload/w_500/v1612559445/PuckFinder/noImagesAvailable_cqa8ny.png" alt="" class="img-fluid">
-                <% } else { %>
-                    <img src="<%= rink.images[0].indexThumbnail %>" alt="" class="img-fluid">
-                <% } %> 
+                <img src="<%= rink.images.length === 0 ? 'https://res.cloudinary.com/dmmbzjpzz/image/upload/w_500/v1612559445/PuckFinder/noImagesAvailable_cqa8ny.png' : rink.images[0].indexThumbnail %>" alt="" class="img-fluid">
             </div>
             <div class="col-md-7 col-lg-8">
                 <div class="card-body">
