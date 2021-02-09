@@ -19,6 +19,8 @@ router.route('/:id')
     .put(isLoggedIn, isAuthor, upload.array('image'), validateRink, catchAsync(rinks.updateRink))
     .delete(isLoggedIn, isAuthor, catchAsync(rinks.deleteRink));
 
+router.patch('/:id/checkIn', catchAsync(rinks.checkIn));
+
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(rinks.renderEditForm));
 
 module.exports = router;

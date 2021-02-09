@@ -37,7 +37,7 @@
                         <p class="card-text"><%= rink.description %></p>
                     </div>
                     <div class="col-12 col-lg-6 col-xl-4 border border-3 rounded p-3">
-                        <form class="d-block mb-2 justify-content-center d-flex" action="/rinks/<%= rink._id %>?_method=PATCH" method="post">
+                        <form class="d-block mb-2 justify-content-center d-flex" action="/rinks/<%= rink._id %>/checkIn?_method=PATCH" method="post">
                             <button class="btn btn-dark">Check in for 1 hour</button>
                         </form>
                         <p class="card-text justify-content-center d-flex">Player Count: <%= rink.playerCount %></p>

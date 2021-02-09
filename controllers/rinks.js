@@ -3,6 +3,13 @@ const { cloudinary } = require('../cloudinary');
 const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeoCoding({accessToken: mapBoxToken});
+const util = require('util');
+const setTimeoutPromise = util.promisify(setTimeout);
+
+const checkOut = async (rink) => {
+    rink.playerCount--;
+    await rink.save();
+};
 
 module.exports.index = async (req, res) => {
     const rinks = await Rink.find({});
@@ -53,7 +60,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateRink = async (req, res) => {
     const { id } = req.params;
-    const rink = await Rink.findByIdAndUpdate(id, { ...req.body.rink })
+    const rink = await Rink.findByIdAndUpdate(id, { ...req.body.rink });
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     rink.images.push(...imgs);
     await rink.save();
@@ -64,6 +71,15 @@ module.exports.updateRink = async (req, res) => {
         await rink.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
     }
     req.flash('success', 'Successfully updated rink');
+    res.redirect(`/rinks/${ rink._id }`);
+};
+
+module.exports.checkIn = async (req, res) => {
+    const { id } = req.params;
+    const rink = await Rink.findById(id);
+    rink.playerCount++;
+    await rink.save();
+    setTimeoutPromise(60 * 60 * 1000, rink).then(checkOut);
     res.redirect(`/rinks/${ rink._id }`);
 };
 
