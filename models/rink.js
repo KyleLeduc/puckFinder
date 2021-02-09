@@ -40,7 +40,10 @@ const RinkSchema = new Schema({
             required: true
         }
     },
-    playerCount: Number,
+    playerCount: {
+        type: Number,
+        default: 0,
+    },
     description: String,
     location: String,
     reviews: [
