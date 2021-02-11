@@ -80,6 +80,7 @@ module.exports.checkIn = async (req, res) => {
     rink.playerCount++;
     await rink.save();
     setTimeoutPromise(60 * 60 * 1000, rink).then(checkOut);
+    req.flash('success', 'Successfully checked in for 1 hour')
     res.redirect(`/rinks/${ rink._id }`);
 };
 
