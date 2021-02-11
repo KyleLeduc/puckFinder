@@ -58,8 +58,8 @@ RinkSchema.virtual('properties.popUpMarkup').get(function() {
     return `
     <strong><a href="/rinks/${this._id}">${this.title}</a></strong>
     <p>${this.description}</p>
+    <p>Skaters: ${this.playerCount}</p>
     `
-    // <p>Skaters: ${this.playerCount}</p>
 });
 
 
