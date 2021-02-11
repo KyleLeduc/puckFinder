@@ -18,6 +18,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const helmet = require('helmet');
 
+const resetPlayerCount = require('./utils/resetPlayerCount.js')
 const userRoutes = require('./routes/users');
 const rinkRoutes = require('./routes/rinks');
 const reviewRoutes = require('./routes/reviews');
@@ -145,6 +146,7 @@ app.use((req, res, next) => {
 });
 
 
+resetPlayerCount();
 app.use('/', userRoutes);
 app.use('/rinks', rinkRoutes);
 app.use('/rinks/:id/reviews', reviewRoutes);
