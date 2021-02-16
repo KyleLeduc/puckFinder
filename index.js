@@ -23,6 +23,7 @@ const userRoutes = require('./routes/users');
 const rinkRoutes = require('./routes/rinks');
 const reviewRoutes = require('./routes/reviews');
 
+const cookieParser = require('cookie-parser')
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/puckFinder';
 
@@ -52,6 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize({
     replaceWith: '_'
 }));
+app.use(cookieParser(process.env.CHECKIN_SECRET));
 app.use(morgan('common'));
 
 const secret = process.env.SECRET;

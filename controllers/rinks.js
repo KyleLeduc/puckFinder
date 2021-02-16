@@ -6,6 +6,11 @@ const geocoder = mbxGeoCoding({accessToken: mapBoxToken});
 const util = require('util');
 const setTimeoutPromise = util.promisify(setTimeout);
 
+const checkInCookie = {
+    signed: true,
+    maxAge: 30 * 1000,
+};
+
 const checkOut = async (rink) => {
     rink.playerCount--;
     await rink.save();
@@ -80,7 +85,8 @@ module.exports.checkIn = async (req, res) => {
     rink.playerCount++;
     await rink.save();
     setTimeoutPromise(60 * 60 * 1000, rink).then(checkOut);
-    req.flash('success', 'Successfully checked in for 1 hour')
+    req.flash('success', 'Successfully checked in for 1 hour');
+    res.cookie('checkedIn', `${id}`, checkInCookie);
     res.redirect(`/rinks/${ rink._id }`);
 };
 
