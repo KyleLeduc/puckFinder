@@ -20,6 +20,7 @@ router.route('/:id')
     .delete(isLoggedIn, isAuthor, catchAsync(rinks.deleteRink));
 
 router.patch('/:id/checkIn', catchAsync(rinks.checkIn));
+router.patch('/:id/checkOut', catchAsync(rinks.checkOut));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(rinks.renderEditForm));
 
