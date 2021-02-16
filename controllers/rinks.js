@@ -8,7 +8,7 @@ const setTimeoutPromise = util.promisify(setTimeout);
 
 const checkInCookie = {
     signed: true,
-    maxAge: 30 * 1000,
+    maxAge: 60 * 60 * 1000,
 };
 
 const checkOut = async (rink) => {
@@ -40,6 +40,7 @@ module.exports.renderNewForm = (req, res) => {
 // };
 
 module.exports.showRink = async (req, res) => {
+    const { checkedIn } = req.signedCookies;
     const rink = await Rink.findById(req.params.id).populate({
         path: 'reviews',
         populate: {
@@ -50,7 +51,7 @@ module.exports.showRink = async (req, res) => {
         req.flash('error', "Sorry! That rink wasn't found");
         return res.redirect('/rinks');
     };
-    res.render('rinks/show', { rink });
+    res.render('rinks/show', { rink, checkedIn });
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -89,6 +90,16 @@ module.exports.checkIn = async (req, res) => {
     res.cookie('checkedIn', `${id}`, checkInCookie);
     res.redirect(`/rinks/${ rink._id }`);
 };
+
+module.exports.checkOut = async (req, res) => {
+    const { id } = req.params;
+    const rink = await Rink.findById(id);
+    rink.playerCount--;
+    await rink.save();
+    req.flash('success', 'Successfully checked out');
+    res.clearCookie('checkedIn');
+    res.redirect(`/rinks/${ rink._id }`);
+}
 
 module.exports.deleteRink = async (req, res) => {
     const { id } = req.params;
