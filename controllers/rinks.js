@@ -82,7 +82,13 @@ module.exports.updateRink = async (req, res) => {
 
 module.exports.checkIn = async (req, res) => {
     const { id } = req.params;
+    const { checkedIn } = req.signedCookies;
     const rink = await Rink.findById(id);
+    const checkedInRink = await Rink.findById(checkedIn);
+    if (checkedInRink) {
+        checkedInRink.playerCount--;
+        await checkedInRink.save();
+    }
     rink.playerCount++;
     await rink.save();
     setTimeoutPromise(60 * 60 * 1000, rink).then(checkOut);
