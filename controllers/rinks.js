@@ -10,7 +10,6 @@ const checkInDuration = 60 * 60 * 1000
 function timeLeft(checkOutTime) {
     const now = setTime();
     const result = checkOutTime - now + (checkInDuration / 1000);
-    // console.log(checkOutTime, now)
     return result;
 };
 function setTime(checkInDuration = 0) {
