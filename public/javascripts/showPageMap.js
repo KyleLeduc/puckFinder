@@ -1,5 +1,5 @@
 mapboxgl.accessToken = mapToken;
-rinkCoords = rink.geometry.coordinates.reverse();
+// rinkCoords = rink.geometry.coordinates.reverse();
 
 // // Get users geolocation (Needs error handling)
 // function getDirections() {
@@ -51,7 +51,7 @@ new mapboxgl.Marker()
     .setPopup(
         new mapboxgl.Popup({offset: 25})
         .setHTML(
-            `<h3>${rink.title}</h3><p>${rink.location}</p>`
+            `<h3>${rinkTitle}</h3><p>${rinkLocation}</p>`
         )
     )
     .addTo(map)

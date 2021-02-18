@@ -130,6 +130,8 @@
 <% } %>
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
-    const rink = <%- JSON.stringify(rink) %>;
+    const rinkCoords = <%- JSON.stringify(rink.geometry.coordinates.reverse()) %>;
+    const rinkTitle = <%- JSON.stringify(rink.title) %>;
+    const rinkLocation = <%- JSON.stringify(rink.location) %>;
 </script>
 <script src="/javascripts/showPageMap.js"></script>
