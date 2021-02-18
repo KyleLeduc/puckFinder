@@ -5,13 +5,23 @@ const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeoCoding({accessToken: mapBoxToken});
 const util = require('util');
 const setTimeoutPromise = util.promisify(setTimeout);
+const checkInDuration = 60 * 60 * 1000
 
-function checkOutTime() {
-    return new Date(new Date().getTime() + 60*60*1000).toLocaleTimeString();
-}
+function timeLeft(checkOutTime) {
+    const now = setTime();
+    const result = checkOutTime - now + (checkInDuration / 1000);
+    // console.log(checkOutTime, now)
+    return result;
+};
+function setTime(checkInDuration = 0) {
+    const minutes = new Date(new Date().getTime()).getMinutes();
+    const seconds = new Date(new Date().getTime()).getSeconds();
+    const now = ((minutes * 60) + seconds) + (checkInDuration / 1000);
+    return now;
+};
 const checkInCookie = {
     signed: true,
-    maxAge: 60 * 60 * 1000,
+    maxAge: checkInDuration,
 };
 
 const checkOut = async (rink) => {
@@ -44,6 +54,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.showRink = async (req, res) => {
     const { checkedIn, checkOutTime } = req.signedCookies;
+    const countdownStart = timeLeft(checkOutTime);
     const rink = await Rink.findById(req.params.id).populate({
         path: 'reviews',
         populate: {
@@ -54,7 +65,7 @@ module.exports.showRink = async (req, res) => {
         req.flash('error', "Sorry! That rink wasn't found");
         return res.redirect('/rinks');
     };
-    res.render('rinks/show', { rink, checkedIn, checkOutTime });
+    res.render('rinks/show', { rink, checkedIn, checkOutTime, countdownStart });
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -94,10 +105,10 @@ module.exports.checkIn = async (req, res) => {
     }
     rink.playerCount++;
     await rink.save();
-    setTimeoutPromise(60 * 60 * 1000, rink).then(checkOut);
+    setTimeoutPromise(checkInDuration, rink).then(checkOut);
     req.flash('success', 'Successfully checked in for 1 hour');
     res.cookie('checkedIn', `${id}`, checkInCookie);
-    res.cookie('checkOutTime', checkOutTime(), checkInCookie);
+    res.cookie('checkOutTime', setTime(), checkInCookie);
     res.redirect(`/rinks/${ rink._id }`);
 };
 
