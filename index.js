@@ -88,7 +88,6 @@ app.use(flash());
 app.use(helmet());
 
 app.use(helmet.contentSecurityPolicy(helmetConfig));
-console.log(helmetConfig);
 
 app.use(passport.initialize());
 app.use(passport.session());
